@@ -1,15 +1,11 @@
-// CRUD create read update delete
-
-const mongodb = require("mongodb");
-
-//Provides the function necessary to connect to the database so that we can perform CRUD operations
-const MongoClinet = mongodb.MongoClient;
+// Shorthand Syntax
+const { MongoClient, ObjectID } = require("mongodb");
 
 const connectionURL = "mongodb://127.0.0.1:27017";
 const databaseName = "task-manager";
 
 // MongoClient to connect to the specific server
-MongoClinet.connect(
+MongoClient.connect(
   connectionURL,
   { useNewUrlParser: true },
   (error, client) => {
@@ -19,10 +15,47 @@ MongoClinet.connect(
     // Its takes in a database name and gives back a database reference and connects to a specific database
     const db = client.db(databaseName);
 
-    // Inserting one document to the database
-    db.collection("users").insertOne({
-      name: "Sandip",
-      age: 27,
-    });
+    // Updating Documents
+    // Update One
+    // db.collection("users")
+    //   .updateOne(
+    //     {
+    //       _id: new ObjectID("608af3e473a1332bbc79b0c5"),
+    //     },
+    //     {
+    //       // $set: {
+    //       //   name: "Mike",
+    //       // },
+
+    //       $inc: {
+    //         age: 3,
+    //       },
+    //     }
+    //   )
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+
+    // Update Many
+    db.collection("check")
+      .updateMany(
+        {
+          complted: false,
+        },
+        {
+          $set: {
+            complted: true,
+          },
+        }
+      )
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 );
