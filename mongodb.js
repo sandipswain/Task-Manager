@@ -26,15 +26,15 @@ MongoClient.connect(
     //     console.log(error);
     //   });
 
-    db.collection("check")
-      .deleteOne({
-        description: "Hey there",
-      })
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // db.collection("check")
+    //   .deleteOne({
+    //     description: "Hey there",
+    //   })
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   }
 );
