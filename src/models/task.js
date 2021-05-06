@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const validator = require("validator");
+const bcrypt = require("bcryptjs");
 
-const tasks = mongoose.model("Tasks", {
+const taskSchema = new mongoose.Schema({
   description: {
     type: String,
     required: true,
@@ -13,5 +13,7 @@ const tasks = mongoose.model("Tasks", {
     default: false,
   },
 });
+
+const tasks = mongoose.model("Tasks", taskSchema);
 
 module.exports = tasks;
