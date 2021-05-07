@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
 
   email: {
     type: String,
+    unique: true,
     required: true,
     trim: true,
     lowercase: true,
@@ -44,8 +45,26 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// To do things before the user is saved
+// This Schema is called by the userrouter
+userSchema.statics.findByCredentials = async (email, password) => {
+  // Find a user by email
+  const user = await User.findOne({ email });
 
+  if (!user) {
+    throw new Error("Unable to login");
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    throw new Error("Unable to login");
+  }
+
+  return user;
+};
+
+// To do things before the user is saved
+// Hash the plaintext password before saving
 userSchema.pre("save", async function (next) {
   const user = this;
   if (user.isModified("password")) {
