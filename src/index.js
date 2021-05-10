@@ -17,10 +17,10 @@ const port = process.env.PORT || 3000;
 
 // Middleware for a maintenance mode
 
-app.use((req, res, next) => {
-  if (req.method === "GET")
-    res.status(503).send("Server is Under Maintenance ! Try Again Later");
-});
+// app.use((req, res, next) => {
+//   if (req.method === "GET")
+//     res.status(503).send("Server is Under Maintenance ! Try Again Later");
+// });
 
 // It automatically converts incoming JSON to Objects
 app.use(express.json());

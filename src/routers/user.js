@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("../models/user");
+const auth = require("../middleware/auth");
 const router = new express.Router();
 
 // Create a User
@@ -30,14 +31,11 @@ router.post("/users/login", async (req, res) => {
   }
 });
 
+// Reading all the Users
 // Sending Get Request to fetch all the users
-router.get("/users", async (req, res) => {
-  try {
-    const users = await User.find({});
-    res.send(users);
-  } catch (error) {
-    res.status(500).send(error);
-  }
+// Setup a middleware function to add authnetication
+router.get("/users/me", auth, async (req, res) => {
+  res.send(req.user);
 });
 
 // Sending request to fetch a user dynamically using IDS
