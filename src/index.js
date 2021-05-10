@@ -7,8 +7,19 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // To register a new middleware function
+// app.use((req, res, next) => {
+//   if (req.method === "GET") {
+//     res.send("GET requests are disabled");
+//   } else {
+//     next();
+//   }
+// });
+
+// Middleware for a maintenance mode
+
 app.use((req, res, next) => {
-  console.log(req.method, req.path);
+  if (req.method === "GET")
+    res.status(503).send("Server is Under Maintenance ! Try Again Later");
 });
 
 // It automatically converts incoming JSON to Objects
