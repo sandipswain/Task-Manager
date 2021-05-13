@@ -6,23 +6,6 @@ const taskRouter = require("./routers/task");
 const app = express();
 const port = process.env.PORT || 3000;
 
-// To register a new middleware function
-// app.use((req, res, next) => {
-//   if (req.method === "GET") {
-//     res.send("GET requests are disabled");
-//   } else {
-//     next();
-//   }
-// });
-
-// Middleware for a maintenance mode
-
-// app.use((req, res, next) => {
-//   if (req.method === "GET")
-//     res.status(503).send("Server is Under Maintenance ! Try Again Later");
-// });
-
-// It automatically converts incoming JSON to Objects
 app.use(express.json());
 app.use(userRouter);
 app.use(taskRouter);
@@ -49,19 +32,3 @@ const myFunction = async () => {
   console.log(data);
 };
 myFunction();
-
-// Example of hashed password
-
-// const bcrypt = require("bcryptjs");
-// const myFunction = async () => {
-//   const password = "Red12345!";
-//   const hashedPassword = await bcrypt.hash(password, 8);
-
-//   console.log(password);
-//   console.log(hashedPassword);
-
-//   const isMatch = await bcrypt.compare("red12345!", hashedPassword);
-//   console.log(isMatch);
-// };
-
-// myFunction();

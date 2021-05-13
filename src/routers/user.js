@@ -31,6 +31,30 @@ router.post("/users/login", async (req, res) => {
   }
 });
 
+// Logging Out from a single session
+router.post("/users/logout", auth, async (req, res) => {
+  try {
+    req.user.tokens = req.user.tokens.filter((token) => {
+      return token.token != req.token;
+    });
+    await req.user.save();
+    res.send();
+  } catch (e) {
+    res.status(500).send();
+  }
+});
+
+// Logging out from all sessions
+router.post("/users/logoutAll", auth, async (req, res) => {
+  try {
+    req.user.tokens = [];
+    await req.user.save();
+    res.send();
+  } catch (error) {
+    res.status(500).send();
+  }
+});
+
 // Reading all the Users
 // Sending Get Request to fetch all the users
 // Setup a middleware function to add authnetication
