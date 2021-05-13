@@ -17,18 +17,15 @@ app.listen(port, () => {
   console.log("Server is up on port " + port);
 });
 
-// Create a new authentication token
-const jwt = require("jsonwebtoken");
-const myFunction = async () => {
-  // Created a JWT token with id
-  // param(uniqueid,secretmessage,timeofexpire)
-  const token = jwt.sign({ _id: "abc123" }, "thisisme", {
-    expiresIn: "7 days",
-  });
-  console.log(token);
+// Privating Data Pratice
 
-  // Verify the JWT token
-  const data = jwt.verify(token, "thisisme");
-  console.log(data);
+const pet = {
+  name: "Meow",
 };
-myFunction();
+
+pet.toJSON = function () {
+  console.log(this);
+  return this;
+};
+
+console.log(JSON.stringify(pet));

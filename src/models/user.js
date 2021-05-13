@@ -55,6 +55,16 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
+// Setting up Private Data
+userSchema.methods.toJSON = function () {
+  const user = this;
+  // This gives the raw profile data about the User
+  const userObject = user.toObject();
+  delete userObject.password;
+  delete userObject.tokens;
+  return userObject;
+};
+
 // userSchema method() to generate a Token.
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
