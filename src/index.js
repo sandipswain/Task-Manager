@@ -17,15 +17,20 @@ app.listen(port, () => {
   console.log("Server is up on port " + port);
 });
 
-// Privating Data Pratice
+const User = require("./models/user");
+const Task = require("./models/task");
+const main = async () => {
+  // For Task
+  // const task = await Task.findById("609df3002eaa2322cc2e1043");
+  // //Here we are trying to bring it from just being an I.D to being the entire profile
+  // // It is gonna find the user who is associated with the task
+  // await task.populate("owner").execPopulate();
+  // console.log(task.owner);
 
-const pet = {
-  name: "Meow",
+  // For User
+  const user = await User.findById("609df1cd65375501f8b5699b");
+  await user.populate("tasks").execPopulate();
+  console.log(user.tasks);
 };
 
-pet.toJSON = function () {
-  console.log(this);
-  return this;
-};
-
-console.log(JSON.stringify(pet));
+main();

@@ -12,6 +12,13 @@ const taskSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  // Setting User/Task relation via id
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    // It allows to create relation from this filed to another model
+    ref: "User",
+  },
 });
 
 const tasks = mongoose.model("Tasks", taskSchema);
