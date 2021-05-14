@@ -1,25 +1,30 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-const taskSchema = new mongoose.Schema({
-  description: {
-    type: String,
-    required: true,
-    trim: true,
-  },
+const taskSchema = new mongoose.Schema(
+  {
+    description: {
+      type: String,
+      required: true,
+      trim: true,
+    },
 
-  completed: {
-    type: Boolean,
-    default: false,
+    completed: {
+      type: Boolean,
+      default: false,
+    },
+    // Setting User/Task relation via id
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      // It allows to create relation from this filed to another model
+      ref: "User",
+    },
   },
-  // Setting User/Task relation via id
-  owner: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    // It allows to create relation from this filed to another model
-    ref: "User",
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const tasks = mongoose.model("Tasks", taskSchema);
 
