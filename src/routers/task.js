@@ -19,6 +19,10 @@ router.post("/tasks", auth, async (req, res) => {
 
 // Sending a request to fetch all the tasks
 // GET /tasks?completed=true or false
+
+// Support for Pagination
+//limit skip
+// GET /tasks?limit=10&skip=0(here skip=0 returns first 1 page and skip=10 returns the 2nd page....)
 router.get("/tasks", auth, async (req, res) => {
   const match = {};
   if (req.query.completed) {
@@ -31,6 +35,10 @@ router.get("/tasks", auth, async (req, res) => {
       .populate({
         path: "tasks",
         match,
+        options: {
+          limit: parseInt(req.query.limit),
+          skip: parseInt(req.query.skip),
+        },
       })
       .execPopulate();
     res.send(req.user.tasks);
