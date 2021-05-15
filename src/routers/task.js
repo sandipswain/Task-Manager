@@ -18,15 +18,30 @@ router.post("/tasks", auth, async (req, res) => {
 });
 
 // Sending a request to fetch all the tasks
+
+// Filtering data
 // GET /tasks?completed=true or false
 
-// Support for Pagination
+// Pagination
 //limit skip
 // GET /tasks?limit=10&skip=0(here skip=0 returns first 1 page and skip=10 returns the 2nd page....)
+
+// Sorting Data
+// GET /tasks?sortBy=createdAt_asc / _desc
 router.get("/tasks", auth, async (req, res) => {
   const match = {};
+  const sort = {};
+
+  // Check if match was provided
   if (req.query.completed) {
     match.completed = req.query.completed === "true";
+  }
+
+  // Check if Sortby is provided
+  if (req.query.sortBy) {
+    const parts = req.query.sortBy.split(":");
+    // Sort by descending or ascending
+    sort[parts[0]] = parts[1] === "desc" ? -1 : 1;
   }
 
   try {
@@ -38,6 +53,8 @@ router.get("/tasks", auth, async (req, res) => {
         options: {
           limit: parseInt(req.query.limit),
           skip: parseInt(req.query.skip),
+          // for asc =1 & desc=-1
+          sort,
         },
       })
       .execPopulate();
