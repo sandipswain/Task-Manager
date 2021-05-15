@@ -78,8 +78,11 @@ userSchema.methods.toJSON = function () {
   const user = this;
   // This gives the raw profile data about the User
   const userObject = user.toObject();
+
   delete userObject.password;
   delete userObject.tokens;
+  delete userObject.avatar;
+
   return userObject;
 };
 

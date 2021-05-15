@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/user");
 const auth = require("../middleware/auth");
 const multer = require("multer");
+const sharp = require("sharp");
 const router = new express.Router();
 
 // Create a User
@@ -128,7 +129,11 @@ router.post(
   auth,
   upload.single("avatar"),
   async (req, res) => {
-    req.user.avatar = req.file.buffer;
+    const buffer = await sharp(req.file.buffer)
+      .resize({ width: 250, height: 250 })
+      .png()
+      .toBuffer();
+    req.user.avatar = buffer;
     await req.user.save();
     res.send();
   },
@@ -164,7 +169,7 @@ router.get("/users/:id/avatar", async (req, res) => {
     }
 
     // args: the name of the response we wanna set and the value we want to set
-    res.set("Content-Type", "image/jpg");
+    res.set("Content-Type", "image/png");
     res.send(user.avatar);
   } catch (error) {
     res.status(404).send();
