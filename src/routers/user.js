@@ -124,8 +124,17 @@ const upload = multer({
   },
 });
 // Upload Profile Picture
-router.post("/users/me/avatar", upload.single("avatar"), (req, res) => {
-  res.send("Profile Image Updated Successfully");
-});
+router.post(
+  "/users/me/avatar",
+  upload.single("avatar"),
+  (req, res) => {
+    res.send("Profile Image Updated Successfully");
+  },
+  (error, req, res, next) => {
+    res.status(400).send({
+      error: error.message,
+    });
+  }
+);
 
 module.exports = router;
