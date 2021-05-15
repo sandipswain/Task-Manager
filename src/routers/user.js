@@ -139,6 +139,7 @@ router.post(
   }
 );
 
+// Remove Profile Picture
 router.delete(
   "/users/me/avatar",
   auth,
@@ -153,5 +154,21 @@ router.delete(
     });
   }
 );
+
+//Getting Avatar or the image back
+router.get("/users/:id/avatar", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user || !user.avatar) {
+      throw new Error();
+    }
+
+    // args: the name of the response we wanna set and the value we want to set
+    res.set("Content-Type", "image/jpg");
+    res.send(user.avatar);
+  } catch (error) {
+    res.status(404).send();
+  }
+});
 
 module.exports = router;
