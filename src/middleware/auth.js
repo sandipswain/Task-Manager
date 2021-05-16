@@ -7,7 +7,7 @@ const auth = async (req, res, next) => {
   try {
     const token = req.header("Authorization").replace("Bearer ", "");
     // To check if our token is valid
-    const decoded = jwt.verify(token, "thisisme");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     // tokens.token will look for a user that has a given token value in one of the array items in the token
     // that is It will find a user with the correct id who has that authentication token still stored
     const user = await User.findOne({
